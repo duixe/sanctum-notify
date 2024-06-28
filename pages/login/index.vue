@@ -10,7 +10,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '~/stores/auth'
 
@@ -21,16 +20,14 @@ const authStore = useAuthStore()
 
 const handleLogin = async () => {
   try {
-    await axios.get('http://localhost:8000/sanctum/csrf-cookie')
-
-    const response = await axios.post('http://localhost:8000/api/auth/mobile/token', {
+    const response = await authStore.login( {
       email: email.value,
       password: password.value,
       device_name: 'test'
     })
 
-    if (response?.data?.access_token) {
-      await router.push('/')
+    if (response.data?.access_token || response.data?.user) {
+      await router.push('/profile')
     } else {
       console.error('Authentication failed')
     }
@@ -41,7 +38,7 @@ const handleLogin = async () => {
 
 onMounted(() => {
   if(authStore.authenticated) {
-    router.push('/')
+    router.push('/profile')
   }
 })
 </script>

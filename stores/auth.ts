@@ -65,12 +65,13 @@ export const useAuthStore = defineStore('auth', {
                 this.errors = error.response?.data || error
             }
         },
-        async logout() {
+        logout() {
             try {
                 const nuxtApp = useNuxtApp()
                 const axios = nuxtApp.$axios
 
-                await axios.post('/auth/logout')
+                axios.post('/auth/logout')
+
                 this.user = null
                 this.authenticated = false
 
@@ -78,6 +79,7 @@ export const useAuthStore = defineStore('auth', {
                 localStorage.removeItem('authenticated')
                 localStorage.removeItem('user')
                 localStorage.removeItem('token')
+                axios.defaults.headers.common['Authorization'] = ''
             } catch (error: any) {
                 this.errors = error.response?.data || error
             }
