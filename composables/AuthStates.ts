@@ -1,0 +1,1 @@
+export const useIsTwoFa = () => useState<boolean>('isTwoFaEnabled', () => false);

@@ -1,30 +1,63 @@
-import { defineNuxtConfig } from 'nuxt/config'
-
+// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: {
-    enabled: true
+  devtools: { enabled: true },
+  css: ['~/assets/css/main.css'],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
   },
   modules: [
-    '@pinia/nuxt',
-    '@nuxtjs/tailwindcss',
-    '@nuxt/image'
+    "shadcn-nuxt",
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/color-mode",
+    "nuxt-auth-sanctum"
   ],
-  router: {
-    middleware: ['auth']
+  colorMode: {
+    classSuffix: ''
   },
-  axios: {
-    baseURL: 'http://localhost:8000', // Replace with your Laravel API URL
-    withCredentials: true // To include credentials in requests
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: '',
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: './components/ui'
   },
-  runtimeConfig: {
-    public: {
-      axiosBaseURL: process.env.AXIOS_BASE_URL || 'http://localhost:8000',
-    }
-  },
-  build: {
-    transpile: ['vee-validate'],
-  },
-  tailwindcss: {},
-  image: {},
-  plugins: ['~/plugins/vee-validate.ts', '~/plugins/axios.ts']
-})
+  sanctum: {
+    baseUrl: 'http://localhost:8000',
+    mode: 'cookie',
+    userStateKey: 'sanctum.user.identity',
+    redirectIfAuthenticated: false,
+    redirectIfUnauthenticated: true,
+    endpoints: {
+        csrf: '/sanctum/csrf-cookie',
+        login: '/auth/login',
+        logout: '/auth/logout',
+        user: '/api/auth/user',
+    },
+    csrf: {
+        cookie: 'XSRF-TOKEN',
+        header: 'X-XSRF-TOKEN',
+    },
+    client: {
+        retry: false,
+    },
+    redirect: {
+        keepRequestedRoute: false,
+        onLogin: '/dashboard',
+        onLogout: '/',
+        onAuthOnly: '/',
+        onGuestOnly: '/dashboard',
+    },
+    globalMiddleware: {
+        enabled: true,
+        allow404WithoutAuth: true,
+    },
+    logLevel: 3,
+  }
+});

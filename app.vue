@@ -1,21 +1,10 @@
 <template>
-  <div>
-    <MainHeader />
-    <main>
-      <NuxtLayout>
-        <NuxtPage />
-      </NuxtLayout>
-    </main>
-    <MainFooter />
-  </div>
+  <NuxtLayout>
+    <Toaster />
+    <NuxtPage />
+  </NuxtLayout>
 </template>
-
-<script setup>
-import MainHeader from '~/layouts/MainHeader.vue'
-import MainFooter from '~/layouts/MainFooter.vue'
-
+<script setup lang="ts">
+import { Toaster } from '@/components/ui/toast'
 </script>
 
-<style scoped>
-
-</style>

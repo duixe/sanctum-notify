@@ -1,9 +1,11 @@
-import {useAuthStore} from "~/stores/auth";
+export default defineNuxtRouteMiddleware(async (to, from) => {
+    const {isAuthenticated, refreshIdentity} = useSanctumAuth();
 
-export default defineNuxtRouteMiddleware((to, from) => {
-    const authStore = useAuthStore()
-    if (!authStore.authenticated && to.name !== 'login') {
-        return navigateTo('/login')
+    await refreshIdentity();
+
+    if (isAuthenticated.value !== true) {
+        return navigateTo({
+            name: "index"
+        });
     }
 })
-
