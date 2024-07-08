@@ -16,7 +16,7 @@ definePageMeta({
   sanctum: {
     excluded: true,
   },
-  middleware: 'is-twofa'
+  middleware: 'is-two-fa'
 });
 
 const { loading } = useHelpers();
