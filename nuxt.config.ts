@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     mode: 'cookie',
     userStateKey: 'sanctum.user.identity',
     redirectIfAuthenticated: false,
-    redirectIfUnauthenticated: true,
+    redirectIfUnauthenticated: false,
     endpoints: {
         csrf: '/sanctum/csrf-cookie',
         login: '/auth/login',
@@ -48,16 +48,17 @@ export default defineNuxtConfig({
         retry: false,
     },
     redirect: {
-        keepRequestedRoute: false,
+        keepRequestedRoute: true,
         onLogin: '/dashboard',
-        onLogout: '/',
-        onAuthOnly: '/',
+        onLogout: '/auth',
+        onAuthOnly: '/auth',
         onGuestOnly: '/dashboard',
     },
     globalMiddleware: {
-        enabled: true,
+        enabled: false,
         allow404WithoutAuth: true,
     },
     logLevel: 3,
-  }
+  },
+  ssr: false
 });

@@ -1,6 +1,14 @@
 <template>
     <div>
-        <div class="flex flex-row-reverse w-100 py-6 pr-6">
+        <div class="flex justify-between align-items-center w-70 py-6 pr-6">
+            <div 
+                class="flex justify-between items-center pl-4 cursor-pointer"
+                @click="$router.push('/')"
+            >
+                <h4 class="font-bold ml-5 "> Home ||</h4>
+                <Icon icon="simple-icons:googlehome" class="ml-2"/>
+            </div>
+            
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>
                     <Button variant="outline">

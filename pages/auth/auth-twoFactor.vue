@@ -13,6 +13,7 @@ import { FetchError } from "ofetch";
 import { ToastAction } from "@/components/ui/toast";
 
 definePageMeta({
+  title: 'Two Factor Test',
   sanctum: {
     excluded: true,
   },

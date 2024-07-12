@@ -10,6 +10,7 @@ import { useToast } from '@/components/ui/toast/use-toast'
 import { ToastAction } from '@/components/ui/toast'
 
 definePageMeta({
+    title: 'password Reset',
     sanctum: {
         excluded: true,
     }
@@ -46,7 +47,9 @@ const submitPasswordReset = async () => {
             body: form
         });
 
-        navigateTo("/");
+        navigateTo({
+            name: 'auth'
+        });
 
         toast({
             title: 'Password Reset',
