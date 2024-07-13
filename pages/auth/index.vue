@@ -79,10 +79,11 @@ const loginUser = async () => {
         }
 
     } catch (error) {
+        let errorMsg: string;
         if (error instanceof FetchError && error.response?.status === 401) {
             loading.value = false;
 
-            const errorMsg = error?.response?._data?.message ?? "unable to authenticate";
+            errorMsg = error?.response?._data?.message ?? "unable to authenticate";
             toast({
                 title: 'Authentication Error.',
                 description: errorMsg,
@@ -90,7 +91,13 @@ const loginUser = async () => {
         }
 
         if (error instanceof FetchError && error.response?.status === 422) {
+            errorMsg = error?.response?._data?.message ?? "wrong credentials";
             loading.value = false;
+
+            toast({
+                title: 'Authentication Error.',
+                description: errorMsg,
+            });
             console.log(error.response?._data.errors)
         }
 
@@ -135,6 +142,8 @@ watchEffect(() => {
         !isEmpty(form.password)
     ) {
         isSubmitReady.value = true;
+    } else {
+        isSubmitReady.value = false;
     }
 })
 
