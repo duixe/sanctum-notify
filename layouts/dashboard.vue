@@ -31,21 +31,54 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Icon } from '@iconify/vue'
+import { Badge } from '@/components/ui/badge'
+import { BellRing, Check } from 'lucide-vue-next'
+import { computed, ref } from 'vue';
 
 definePageMeta({
     // middleware: 'auth'
 });
-
 const colorMode = useColorMode()
-const { logout, isAuthenticated } = useSanctumAuth()
+const { logout, user } = useSanctumAuth()
+const { echo } = useEcho();
+const client = useSanctumClient();
 
+const notification = ref([]);
+
+const messageNum = computed(() => {
+  return notification.value.length
+})
 const logoutUser = async () => {
   await logout();
 }
 
+const handleNotifyEcho = (notifyObj) => {
+  notification.value.push(notifyObj)
+}
+
+const getNotifications = async () => {
+    try {
+        const response = await client('/api/notification/unread');
+        notification.value = response.many?.data
+        console.log(response);
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const handleNotify = () => {
+
+}
+
 onMounted(() => {
-  console.log(isAuthenticated.value);
-  
+  echo.private('notify.user.' + user.value?.data?.id)
+    .notification((notification) => {
+      handleNotifyEcho(notification)
+      
+    })
+    
+    getNotifications()
 })
 
 </script>
@@ -280,11 +313,22 @@ onMounted(() => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem @click.prevent="logoutUser">Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <div
+          @click="$router.push('notifications')"
+          class="m-1 ms-0 relative py-3 px-4 inline-flex bg-slate-100 rounded-full text-gray-800 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 cursor-pointer"
+          >
+          <BellRing />
+          <span class="flex absolute top-0 end-0 -mt-2 -me-2" v-if="messageNum > 0">
+            <span class="animate-ping absolute inline-flex size-full rounded-full bg-red-400 opacity-75 dark:bg-red-600"></span>
+            <span class="relative inline-flex text-xs bg-red-500 text-white rounded-full py-0.5 px-1.5">
+              {{ messageNum }}+
+            </span>
+          </span>
+        </div>
       </header>
        <slot />
     </div>

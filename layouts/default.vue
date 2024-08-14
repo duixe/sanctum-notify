@@ -1,36 +1,15 @@
 <template>
     <div>
-        <div class="flex justify-between align-items-center w-70 py-6 pr-6">
-            <div 
-                class="flex justify-between items-center pl-4 cursor-pointer"
-                @click="$router.push('/')"
-            >
-                <h4 class="font-bold ml-5 "> Home ||</h4>
-                <Icon icon="simple-icons:googlehome" class="ml-2"/>
+        <div class="hidden flex-col md:flex">
+            <div class="border-b">
+                <div class="flex h-16 items-center px-4">
+                    <MainNav />
+                    <div class="ml-auto flex items-center space-x-4">
+                        <ColorMode />
+                        <!-- <UserNav /> -->
+                    </div>
+                </div>
             </div>
-            
-            <DropdownMenu>
-                <DropdownMenuTrigger as-child>
-                    <Button variant="outline">
-                        <Icon icon="radix-icons:moon"
-                            class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                        <Icon icon="radix-icons:sun"
-                            class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                        <span class="sr-only">Toggle theme</span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuItem @click="colorMode.preference = 'light'">
-                        Light
-                    </DropdownMenuItem>
-                    <DropdownMenuItem @click="colorMode.preference = 'dark'">
-                        Dark
-                    </DropdownMenuItem>
-                    <DropdownMenuItem @click="colorMode.preference = 'system'">
-                        System
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
         </div>
         <div class="bg-gray">
             <slot />
@@ -40,11 +19,7 @@
 </template>
 
 <script setup>
-import { Icon } from '@iconify/vue'
-import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
-const colorMode = useColorMode()
 </script>
 
 <style lang="scss" scoped></style>

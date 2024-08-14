@@ -8,6 +8,14 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  runtimeConfig: {
+    public: {
+      ReverbAppKey: process.env.REVERB_APP_KEY,
+      ReverbHost: process.env.REVERB_HOST,
+      ReverbPort: process.env.REVERB_PORT,
+      ReverbScheme: process.env.REVERB_SCHEME
+    }
+  },
   modules: [
     "shadcn-nuxt",
     "@nuxtjs/tailwindcss",

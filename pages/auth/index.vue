@@ -130,7 +130,7 @@ const handleOauthLogin = async () => {
             }, {
                 default: () => 'Try again',
             }),
-        });
+        }); 
 
     }
 }
